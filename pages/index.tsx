@@ -1,6 +1,7 @@
 import OutputCard from "@/components/OutputCard";
 import Spinner from "@/components/Spinner";
 import { useState } from "react";
+require("dotenv").config();
 
 const Home = () => {
   const [shortedUrl, setShortedUrl] = useState("");
@@ -23,13 +24,15 @@ const Home = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/", {
+      const response = await axios.post(process.env.NEXT_PUBLIC_SHTNR_BACKEND, {
         url: originalUrl,
       });
 
       setGeneratingShortedUrl(false);
       setValidInput(true);
-      setShortedUrl(`localhost:3000/u/${response.data.shtnd_url}`);
+      setShortedUrl(
+        `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/u/${response.data.shtnd_url}`
+      );
     } catch (error) {
       setGeneratingShortedUrl(false);
     }
