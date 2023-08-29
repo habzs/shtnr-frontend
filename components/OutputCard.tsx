@@ -1,12 +1,15 @@
 import { useState } from "react";
 
-const OutputCard = ({ shortedUrl }: { shortedUrl: string }) => {
-  console.log(shortedUrl);
+type OutputCardProps = {
+  shortedUrl: string;
+};
+
+const OutputCard: React.FC<OutputCardProps> = ({ shortedUrl }) => {
   const [toastBool, setToastBool] = useState(false);
 
-  const handleCopy = (status) => {
+  const handleCopy = () => {
     navigator.clipboard.writeText(shortedUrl);
-    setToastBool(status);
+    setToastBool(true);
     setTimeout(() => {
       setToastBool(false);
     }, 2000);
@@ -50,6 +53,8 @@ const OutputCard = ({ shortedUrl }: { shortedUrl: string }) => {
             </button>
           </span>
         </div>
+
+        <div>{/* <button className="btn">Share</button> */}</div>
       </div>
 
       <div
