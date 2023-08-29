@@ -22,7 +22,8 @@ const Test = () => {
     <div>
       <h1>test</h1>
       <button className="button" onClick={() => handler({ shtnd_url: "5755" })}>
-        asdfasdfasdfasdf
+        asdfasdfasdfasdfasdaskfjhsdalkjfhaskjfhalskfhlkasjdfhkjasdf force
+        deployment
       </button>
     </div>
   );
