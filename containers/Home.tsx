@@ -1,5 +1,5 @@
-import OutputCard from "@/components/OutputCard";
-import Spinner from "@/components/Spinner";
+import OutputCard from "../components/OutputCard";
+import Spinner from "../components/Spinner";
 import { useState } from "react";
 require("dotenv").config();
 

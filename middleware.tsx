@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 async function getFullLink(data = {}) {
-  const url = `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/full`;
+  const url = `${process.env.NEXT_PUBLIC_SHTNR_BACKEND}/full`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
