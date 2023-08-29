@@ -14,7 +14,6 @@ const Home = () => {
   };
 
   const handleShortenUrl = async () => {
-    console.log("originalUrl", originalUrl);
     setGeneratingShortedUrl(true);
 
     if (originalUrl === "") {
