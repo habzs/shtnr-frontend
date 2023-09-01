@@ -1,7 +1,9 @@
 import OutputCard from "../components/OutputCard";
 import Spinner from "../components/Spinner";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import { shtnrApiService } from "@/services/api/shtnr";
+import toast, { Toaster } from "react-hot-toast";
 require("dotenv").config();
 
 const Home = () => {
@@ -9,9 +11,8 @@ const Home = () => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [generatingShortedUrl, setGeneratingShortedUrl] = useState(false);
   const [validInput, setValidInput] = useState(true);
+  const [placeholder, setPlaceholder] = useState("");
   const inputField = useRef<HTMLInputElement>(null);
-
-  const axios = require("axios").default;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOriginalUrl(event.target.value);
@@ -22,22 +23,27 @@ const Home = () => {
 
     if (originalUrl === "") {
       setValidInput(false);
+      setPlaceholder("Field cannot be empty");
       setGeneratingShortedUrl(false);
       return;
     }
 
     try {
-      const response = await axios.post(process.env.NEXT_PUBLIC_SHTNR_BACKEND, {
-        url: originalUrl,
-      });
-
       setGeneratingShortedUrl(false);
-      setValidInput(true);
-      setShortedUrl(
-        `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/u/${response.data.shtnd_url}`
-      );
-    } catch (error) {
-      setGeneratingShortedUrl(false);
+      let data = await shtnrApiService.postShtnr(originalUrl);
+      if (data) {
+        setValidInput(true);
+        setShortedUrl(
+          `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/u/${data.shtnd_url}`
+        );
+      }
+    } catch (err: any) {
+      const responseData = err.response.data;
+      if (responseData.err_code === "E1002") {
+        setValidInput(false);
+        setPlaceholder("Enter a valid URL");
+        setGeneratingShortedUrl(false);
+      }
     }
   };
 
@@ -54,8 +60,25 @@ const Home = () => {
     }
   };
 
+  const handleSuccessToast = (message: string) => {
+    toast.success(message);
+  };
+
+  const handleErrorToast = (message: string) => {
+    toast.error(message);
+  };
+
+  useEffect(() => {
+    if (placeholder !== "") {
+      handleErrorToast(placeholder);
+    }
+  }, [placeholder]);
+
   return (
     <>
+      <div>
+        <Toaster />
+      </div>
       <div className="bg-gray-100 h-screen flex flex-col items-center">
         <h1
           className={
@@ -79,7 +102,7 @@ const Home = () => {
                   className={`border-2 md:rounded-l-lg xs:max-md:rounded-lg h-8 w-full py-7 pl-7 pr-11 focus:border-black focus:outline-none ${
                     validInput ? "border-gray-300" : "border-red-300"
                   }`}
-                  placeholder={`${validInput ? "" : "Field cannot be empty"}`}
+                  placeholder={`${validInput ? "" : placeholder}`}
                   onChange={handleChange}
                   onKeyPress={handleKeyPress}
                 />
@@ -98,13 +121,13 @@ const Home = () => {
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       stroke="currentColor"
                       className="w-6 h-6 hover:stroke-black transition ease-out duration-500 stroke-gray-400"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
@@ -142,7 +165,10 @@ const Home = () => {
                 : "opacity-0"
             }`}
           >
-            <OutputCard shortedUrl={shortedUrl} />
+            <OutputCard
+              shortedUrl={shortedUrl}
+              handleSuccessToast={handleSuccessToast}
+            />
           </div>
         </div>
       </div>
