@@ -95,7 +95,7 @@ const Home = () => {
             </p>
 
             <div className="flex flex-col md:flex-row justify-center py-4">
-              <div className="basis-10/12 relative">
+              <div className="grow relative">
                 <input
                   ref={inputField}
                   type="text"
@@ -135,7 +135,7 @@ const Home = () => {
                 </span>
               </div>
 
-              <div className="xs:max-md:mt-3 xs:max-md:h-16 md:basis-1/12">
+              <div className="xs:max-md:mt-3 xs:max-md:h-16">
                 <button
                   className="w-full xs:max-md:rounded-lg md:rounded-r-lg py-2 px-3 uppercase text-xs font-bold tracking-wider cursor-pointer h-full bg-black border-black border-2 text-white
             hover:bg-whitetransition ease-out duration-500 hover:scale-105 hover:animate-text hover:bg-gradient-to-r hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500"
