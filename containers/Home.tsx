@@ -29,7 +29,6 @@ const Home = () => {
     }
 
     try {
-      setGeneratingShortedUrl(false);
       let data = await shtnrApiService.postShtnr(originalUrl);
       if (data) {
         setValidInput(true);
