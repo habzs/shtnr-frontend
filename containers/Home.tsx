@@ -31,6 +31,7 @@ const Home = () => {
     try {
       let data = await shtnrApiService.postShtnr(originalUrl);
       if (data) {
+        setGeneratingShortedUrl(false);
         setValidInput(true);
         setShortedUrl(
           `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/u/${data.shtnd_url}`
