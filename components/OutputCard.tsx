@@ -23,14 +23,11 @@ const OutputCard: React.FC<OutputCardProps> = ({ shortedUrl }) => {
         <div className="flex py-4 relative">
           <input
             type="text"
-            className="border-2 border-gray-300 rounded-lg h-8 w-full p-7
+            className="border-2 border-gray-300 rounded-lg h-8 w-full py-7 pl-7 pr-11
               focus:border-black focus:outline-none"
             value={shortedUrl}
           />
-          <span
-            className="absolute inset-y-0 right-3 flex items-center pl-2
-            hover:"
-          >
+          <span className="absolute inset-y-0 right-3 flex items-center pl-2">
             <button
               type="submit"
               className="p-1 focus:outline-none focus:shadow-outline"
@@ -41,7 +38,6 @@ const OutputCard: React.FC<OutputCardProps> = ({ shortedUrl }) => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
-                // stroke="gray"
                 className="w-6 h-6 hover:stroke-black transition ease-out duration-500 stroke-gray-400"
               >
                 <path
@@ -53,8 +49,6 @@ const OutputCard: React.FC<OutputCardProps> = ({ shortedUrl }) => {
             </button>
           </span>
         </div>
-
-        <div>{/* <button className="btn">Share</button> */}</div>
       </div>
 
       <div

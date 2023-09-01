@@ -1,6 +1,7 @@
 import OutputCard from "../components/OutputCard";
 import Spinner from "../components/Spinner";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import clsx from "clsx";
 require("dotenv").config();
 
 const Home = () => {
@@ -8,6 +9,8 @@ const Home = () => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [generatingShortedUrl, setGeneratingShortedUrl] = useState(false);
   const [validInput, setValidInput] = useState(true);
+  const inputField = useRef<HTMLInputElement>(null);
+
   const axios = require("axios").default;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,12 +47,16 @@ const Home = () => {
     }
   };
 
+  const handleClearInput = () => {
+    if (inputField.current) {
+      inputField.current.value = "";
+      setOriginalUrl("");
+    }
+  };
+
   return (
     <>
       <div className="bg-gray-100 h-screen flex flex-col items-center">
-        {/* <h1 className="py-7 text-6xl font-bold tracking-tight text-gray-900 xs:text-6xl mt-10 grad">
-          shtnr
-        </h1> */}
         <h1
           className={
             "animate-text bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 bg-clip-text text-transparent py-7 text-6xl font-bold tracking-tight xs:text-6xl mt-10"
@@ -65,16 +72,44 @@ const Home = () => {
             </p>
 
             <div className="flex md:flex-row xs:flex-col flex-wrap justify-center py-4">
-              <div className="md:w-3/4 xs:w-full">
+              <div className="md:w-3/4 xs:w-full flex relative">
                 <input
+                  ref={inputField}
                   type="text"
-                  className={`border-2 md:rounded-l-lg xs:max-md:rounded-lg h-8 w-full p-7 focus:border-black focus:outline-none ${
+                  className={`border-2 md:rounded-l-lg xs:max-md:rounded-lg h-8 w-full py-7 pl-7 pr-11 focus:border-black focus:outline-none ${
                     validInput ? "border-gray-300" : "border-red-300"
                   }`}
                   placeholder={`${validInput ? "" : "Field cannot be empty"}`}
                   onChange={handleChange}
                   onKeyPress={handleKeyPress}
                 />
+                <span className="absolute inset-y-0 right-3 flex items-center pl-2">
+                  <button
+                    type="submit"
+                    className={clsx(
+                      "p-1 focus:outline-none focus:shadow-outline",
+                      {
+                        hidden: !originalUrl,
+                      }
+                    )}
+                    onClick={handleClearInput}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6 hover:stroke-black transition ease-out duration-500 stroke-gray-400"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </button>
+                </span>
               </div>
 
               <div className="xs:max-md:mt-3 xs:max-md:h-16">
