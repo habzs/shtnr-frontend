@@ -1,4 +1,4 @@
-import { useState } from "react";
+import clsx from "clsx";
 
 type OutputCardProps = {
   shortedUrl: string;
@@ -16,7 +16,11 @@ const OutputCard: React.FC<OutputCardProps> = ({
 
   return (
     <>
-      <div className="card mt-8 py-8 px-8">
+      <div
+        className={clsx("card mt-8 py-8 px-8", {
+          hidden: !shortedUrl,
+        })}
+      >
         <p className="text-center font-bold text-gray-600">Shortened URL</p>
 
         <div className="flex py-4 relative">
@@ -27,7 +31,7 @@ const OutputCard: React.FC<OutputCardProps> = ({
             value={shortedUrl}
             readOnly={true}
           />
-          <span className="absolute inset-y-0 right-3 flex items-center pl-2">
+          <span className={"absolute inset-y-0 right-3 flex items-center pl-2"}>
             <button
               type="submit"
               className="p-1 focus:outline-none focus:shadow-outline"
