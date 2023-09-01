@@ -87,6 +87,7 @@ const Home = () => {
         >
           shtnr
         </h1>
+
         {/* Card Elements */}
         <div className="mt-8 max-w-2xl min-w-fit w-6/12 mx-8">
           <div className="card py-8 px-8">
@@ -135,9 +136,10 @@ const Home = () => {
                 </span>
               </div>
 
-              <div className="xs:max-md:mt-3 xs:max-md:h-16">
+              <div className="xs:max-md:mt-3 xs:max-md:h-16 relative group">
+                <div className="absolute -inset-1 rounded-r-lg blur opacity-25 group-hover:opacity-100 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 group-hover:animate-text ease-out duration-500" />
                 <button
-                  className="w-full xs:max-md:rounded-lg md:rounded-r-lg py-2 px-3 uppercase text-xs font-bold tracking-wider cursor-pointer h-full bg-black border-black border-2 text-white
+                  className="relative w-full xs:max-md:rounded-lg md:rounded-r-lg py-2 px-3 uppercase text-xs font-bold tracking-wider cursor-pointer h-full bg-black border-black border-2 text-white
             hover:bg-whitetransition ease-out duration-500 hover:scale-105 hover:animate-text hover:bg-gradient-to-r hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500"
                   onClick={() => {
                     handleShortenUrl();
