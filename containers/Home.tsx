@@ -34,7 +34,7 @@ const Home = () => {
         setGeneratingShortedUrl(false);
         setValidInput(true);
         setShortedUrl(
-          `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/u/${data.shtnd_url}`
+          `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/${data.shtnd_url}`
         );
       }
     } catch (err: any) {
