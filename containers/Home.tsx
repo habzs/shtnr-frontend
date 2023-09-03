@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { shtnrApiService } from "@/services/api/shtnr";
 import toast, { Toaster } from "react-hot-toast";
+import Header from "@/components/Header";
+
 require("dotenv").config();
 
 const Home = () => {
@@ -82,6 +84,8 @@ const Home = () => {
 
   return (
     <>
+      <Header />
+
       <div>
         <Toaster />
       </div>
