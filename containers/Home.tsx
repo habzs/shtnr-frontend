@@ -38,10 +38,16 @@ const Home = () => {
         );
       }
     } catch (err: any) {
-      const responseData = err.response.data;
-      if (responseData.err_code === "E1002") {
+      if (err.response) {
+        const responseData = err.response.data;
+        if (responseData.err_code === "E1002") {
+          setValidInput(false);
+          setPlaceholder("Enter a valid URL");
+          setGeneratingShortedUrl(false);
+        }
+      } else {
         setValidInput(false);
-        setPlaceholder("Enter a valid URL");
+        setPlaceholder("Unable to connect to the server");
         setGeneratingShortedUrl(false);
       }
     }

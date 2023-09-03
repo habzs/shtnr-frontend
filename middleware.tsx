@@ -17,23 +17,26 @@ async function getFullLink(data = {}) {
 
 export async function middleware(req: NextRequest) {
   // get current path name
-  const pathName = req.nextUrl.pathname;
-  let parts = pathName.split("/");
-  let shortUrl = parts[parts.length - 1];
+  if (req.nextUrl.pathname !== "/") {
+    console.log("req.nextUrl.pathname", req.nextUrl.pathname);
+    const pathName = req.nextUrl.pathname;
+    let parts = pathName.split("/");
+    let shortUrl = parts[parts.length - 1];
 
-  let data = await getFullLink({ shtnd_url: shortUrl });
+    let data = await getFullLink({ shtnd_url: shortUrl });
 
-  if (data.error) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.rewrite(url);
+    if (data.error) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.rewrite(url);
+    }
+
+    let fullUrl = data.url;
+    return NextResponse.redirect(fullUrl);
   }
-
-  let fullUrl = data.url;
-  return NextResponse.redirect(fullUrl);
 }
 
 export const config = {
   // matcher: "/u/:url*",
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sw.js).*)"],
 };
