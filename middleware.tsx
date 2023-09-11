@@ -17,6 +17,7 @@ async function getFullLink(data = {}) {
 
 export async function middleware(req: NextRequest) {
   // get current path name
+  console.log("req.nextUasdadadarl.pathname", req.nextUrl.pathname);
   if (req.nextUrl.pathname !== "/") {
     console.log("req.nextUrl.pathname", req.nextUrl.pathname);
     const pathName = req.nextUrl.pathname;
@@ -39,6 +40,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   // matcher: "/u/:url*",
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sw.js|shtnr-logo.svg).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sw.js|shtnr-logo.svg|signup|login).*)",
   ],
 };

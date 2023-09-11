@@ -20,6 +20,7 @@
     "dotenv": "^16.3.1",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
+    "js-cookie": "^3.0.5",
     "next": "13.4.2",
     "nextjs-koa-api": "^2.0.2",
     "postcss": "8.4.23",
