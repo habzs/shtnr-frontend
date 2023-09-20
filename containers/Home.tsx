@@ -1,56 +1,91 @@
 import OutputCard from "../components/OutputCard";
 import Spinner from "../components/Spinner";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { shtnrApiService } from "@/services/api/shtnr";
-import toast, { Toaster } from "react-hot-toast";
-import Header from "@/components/Header";
+import toast from "react-hot-toast";
+import AuthContext from "@/components/AuthContext";
+import router from "next/router";
+import CustomLinkCard from "@/components/CustomLinkCard";
 
 require("dotenv").config();
 
 const Home = () => {
   const [shortedUrl, setShortedUrl] = useState("");
   const [originalUrl, setOriginalUrl] = useState("");
+  const [customUrl, setCustomUrl] = useState("");
+  const [validCustom, setValidCustom] = useState(true);
   const [generatingShortedUrl, setGeneratingShortedUrl] = useState(false);
   const [validInput, setValidInput] = useState(true);
   const [placeholder, setPlaceholder] = useState("");
   const inputField = useRef<HTMLInputElement>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    router.push("/");
+    return null;
+  }
+
+  const { isUserLoggedIn } = authContext;
+
+  const handleOriginalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOriginalUrl(event.target.value);
   };
 
+  const handleCustomLinkChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    // setShortedUrl(event.target.value);
+    setCustomUrl(event.target.value);
+  };
+
   const handleShortenUrl = async () => {
+    let message;
     setGeneratingShortedUrl(true);
 
     if (originalUrl === "") {
+      message = "Field cannot be empty";
       setValidInput(false);
-      setPlaceholder("Field cannot be empty");
+      setPlaceholder(message);
+      toast.error(message);
       setGeneratingShortedUrl(false);
       return;
     }
 
     try {
-      let data = await shtnrApiService.postShtnr(originalUrl);
+      let data = await shtnrApiService.postShtnr(originalUrl, customUrl);
       if (data) {
         setGeneratingShortedUrl(false);
         setValidInput(true);
-        setShortedUrl(
-          `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/${data.shtnd_url}`
-        );
+        setShortedUrl(data.shtnd_url);
+        setValidCustom(true);
+        if (!customUrl || !data.shtnd_url) {
+          setCustomUrl(data.shtnd_url);
+        } else {
+        }
       }
     } catch (err: any) {
-      if (err.response) {
-        const responseData = err.response.data;
+      const responseData = err.response.data;
+
+      if (responseData) {
         if (responseData.err_code === "E1002") {
+          message = "Enter a valid URL";
           setValidInput(false);
-          setPlaceholder("Enter a valid URL");
+          setPlaceholder(message);
+          toast.error(message);
+          setGeneratingShortedUrl(false);
+        } else if (responseData.err_code === "E1003") {
+          message = "Custom URL already exists";
+          setValidCustom(false);
+          setPlaceholder(message);
+          toast.error(message);
+          setGeneratingShortedUrl(false);
+        } else {
+          setValidInput(false);
+          setPlaceholder("Unable to connect to the server");
           setGeneratingShortedUrl(false);
         }
-      } else {
-        setValidInput(false);
-        setPlaceholder("Unable to connect to the server");
-        setGeneratingShortedUrl(false);
       }
     }
   };
@@ -72,15 +107,11 @@ const Home = () => {
     toast.success(message);
   };
 
-  const handleErrorToast = (message: string) => {
-    toast.error(message);
+  const handleCopy = () => {
+    const link = `${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/${shortedUrl}`;
+    navigator.clipboard.writeText(link);
+    toast.success("Copied to clipboard");
   };
-
-  useEffect(() => {
-    if (placeholder !== "") {
-      handleErrorToast(placeholder);
-    }
-  }, [placeholder]);
 
   return (
     <>
@@ -110,7 +141,7 @@ const Home = () => {
                       validInput ? "border-gray-300" : "border-red-300"
                     }`}
                     placeholder={`${validInput ? "" : placeholder}`}
-                    onChange={handleChange}
+                    onChange={handleOriginalChange}
                     onKeyPress={handleKeyPress}
                   />
                   <span className="absolute inset-y-0 right-3 flex items-center pl-2">
@@ -166,7 +197,7 @@ const Home = () => {
             {/* output card */}
             <div
               className={`transistion ease-out duration-500 ${
-                shortedUrl
+                shortedUrl && !isUserLoggedIn
                   ? validInput
                     ? "opacity-100"
                     : "opacity-0"
@@ -175,7 +206,24 @@ const Home = () => {
             >
               <OutputCard
                 shortedUrl={shortedUrl}
+                isUserLoggedIn={isUserLoggedIn}
                 handleSuccessToast={handleSuccessToast}
+                handleCopy={handleCopy}
+              />
+            </div>
+
+            {/* custom links */}
+            <div
+              className={`transistion ease-out duration-500 ${
+                isUserLoggedIn ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <CustomLinkCard
+                handleCustomLinkChange={handleCustomLinkChange}
+                validCustom={validCustom}
+                shortedUrl={shortedUrl}
+                customUrl={customUrl}
+                handleCopy={handleCopy}
               />
             </div>
           </div>

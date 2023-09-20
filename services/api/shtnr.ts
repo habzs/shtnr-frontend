@@ -1,14 +1,17 @@
+import { use } from "react";
 import axios from "axios";
-require("dotenv").config();
+// require("dotenv").config();
 
 // -=-=-= URL Shortener Endpoint =-=-=-
 
-export const postShtnr = async (originalUrl: string) => {
+export const postShtnr = async (originalUrl: string, customUrl?: string) => {
   const res = await axios.post<ShtnrResponse>(
     process.env.NEXT_PUBLIC_SHTNR_BACKEND!,
     {
       url: originalUrl,
-    }
+      customUrl: customUrl,
+    },
+    { withCredentials: true }
   );
 
   return res.data;
@@ -21,6 +24,31 @@ export type ShtnrResponse = {
   created_at: Date;
 };
 
+// -=-=-= URL Custom Shortener Endpoint =-=-=-
+
+// export const postShtnrCustom = async (
+//   originalUrl: string,
+//   customUrl: string
+// ) => {
+//   const res = await axios.post<CustomShtnrResponse>(
+//     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/custom`,
+//     {
+//       url: originalUrl,
+//       customUrl: customUrl,
+//     },
+//     { withCredentials: true }
+//   );
+
+//   return res.data;
+// };
+
+// export type CustomShtnrResponse = {
+//   url: string;
+//   shtnd_url: string;
+//   times_visited: number;
+//   created_at: Date;
+// };
+
 // -=-=-= User auth signup endpoint =-=-=-
 
 export const postSignup = async (
@@ -28,7 +56,7 @@ export const postSignup = async (
   username: string,
   password: string
 ) => {
-  const res = await axios.post<SignupResponse>(
+  const res = await axios.post<AuthResponse>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/signup`,
     {
       email: email,
@@ -47,15 +75,17 @@ type ErrorsType = {
   password?: string;
 };
 
-export type SignupResponse = {
+export type AuthResponse = {
   errorsMsg?: ErrorsType | string;
   status?: string;
+  email?: string;
+  username?: string;
 };
 
 // -=-=-= User auth login endpoint =-=-=-
 
 export const postLogin = async (email: string, password: string) => {
-  const res = await axios.post<LoginResponse>(
+  const res = await axios.post<AuthResponse>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/login`,
     { email: email, password: password },
     { withCredentials: true }
@@ -64,13 +94,36 @@ export const postLogin = async (email: string, password: string) => {
   return res.data;
 };
 
-export type LoginResponse = {
-  errorsMsg?: ErrorsType | string;
-  status?: string;
+export const verifyToken = async () => {
+  const res = await axios.post<VerifyTokenResponse>(
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/verify-token`,
+    {},
+    { withCredentials: true }
+  );
+
+  return res.data;
+};
+
+export type VerifyTokenResponse = {
+  id?: string;
+  msg?: string;
+};
+
+export const postLogout = async () => {
+  const res = await axios.post<VerifyTokenResponse>(
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/logout`,
+    {},
+    { withCredentials: true }
+  );
+
+  return res.data;
 };
 
 export const shtnrApiService = {
   postShtnr,
+  // postShtnrCustom,
   postSignup,
   postLogin,
+  verifyToken,
+  postLogout,
 };

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { verifyToken } from "./services/api/shtnr";
 
 async function getFullLink(data = {}) {
   const url = `${process.env.NEXT_PUBLIC_SHTNR_BACKEND}/full`;
@@ -17,9 +18,16 @@ async function getFullLink(data = {}) {
 
 export async function middleware(req: NextRequest) {
   // get current path name
-  console.log("req.nextUasdadadarl.pathname", req.nextUrl.pathname);
+
+  if (req.nextUrl.pathname.startsWith("/dashboard")) {
+    const userToken = req.cookies.get("auth")?.value;
+    if (!userToken) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+    return;
+  }
+
   if (req.nextUrl.pathname !== "/") {
-    console.log("req.nextUrl.pathname", req.nextUrl.pathname);
     const pathName = req.nextUrl.pathname;
     let parts = pathName.split("/");
     let shortUrl = parts[parts.length - 1];
@@ -27,9 +35,7 @@ export async function middleware(req: NextRequest) {
     let data = await getFullLink({ shtnd_url: shortUrl });
 
     if (data.error) {
-      const url = req.nextUrl.clone();
-      url.pathname = "/";
-      return NextResponse.rewrite(url);
+      return NextResponse.redirect(new URL("/", req.url));
     }
 
     let fullUrl = data.url;
@@ -40,6 +46,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   // matcher: "/u/:url*",
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sw.js|shtnr-logo.svg|signup|login).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sw.js|shtnr-logo.svg|signup|login|logout).*)",
   ],
 };

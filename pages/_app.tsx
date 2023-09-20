@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/components/AuthContext";
 import Header from "@/components/Header";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
@@ -15,18 +16,20 @@ const PageConfig: React.FC<PageConfigProps> = ({ children }) => {
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Head>
-        <title>shtnr</title>
-        <meta name="description" content="A quick link shortener." />
-        {/* <link rel="icon" type="image/x-icon" href="/static/favicon.ico"></link> */}
-        {/* <link rel="manifest" href="/manifest.json" />
+      <AuthProvider>
+        <Head>
+          <title>shtnr</title>
+          <meta name="description" content="A quick link shortener." />
+          {/* <link rel="icon" type="image/x-icon" href="/static/favicon.ico"></link> */}
+          {/* <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/homescreen_512.png" /> */}
-      </Head>
-      <Toaster />
-      <Header />
-      <PageConfig>
-        <Component {...pageProps} />
-      </PageConfig>
+        </Head>
+        <Toaster containerStyle={{ top: "80px" }} />
+        <Header />
+        <PageConfig>
+          <Component {...pageProps} />
+        </PageConfig>
+      </AuthProvider>
     </>
   );
 }

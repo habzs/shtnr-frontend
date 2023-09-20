@@ -1,7 +1,10 @@
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
+import AuthContext from "./AuthContext";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 enum LinkViews {
   LOGGED_IN = "LOGGED_IN",
@@ -17,11 +20,40 @@ const links = [
   { href: "/logout", label: "Log out", view: LinkViews.LOGGED_IN },
 ];
 
-const isUserLoggedIn = LinkViews.LOGGED_OUT;
-
 const Header = () => {
+  const router = useRouter();
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    return <div>Error.</div>;
+  }
+
+  let isLoggedIn = LinkViews.LOGGED_OUT;
+
+  if (authContext.isUserLoggedIn) {
+    isLoggedIn = LinkViews.LOGGED_IN;
+  }
+
+  // const checkLoginStatus = async () => {
+  //   const loggedIn = await authContext.isLoggedIn();
+  //   if (loggedIn) {
+  //     setIsUserLoggedIn(LinkViews.LOGGED_IN);
+  //   } else {
+  //     setIsUserLoggedIn(LinkViews.LOGGED_OUT);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   checkLoginStatus();
+  //   console.log("asddddd");
+  // }, [router.pathname, isUserLoggedIn]);
+
+  useEffect(() => {
+    authContext.isLoggedIn();
+  }, [router.pathname]);
+
   return (
-    <nav className="bg-white drop-shadow-sm">
+    <nav className="bg-white drop-shadow-sm sticky top-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center">
           <Image
@@ -69,7 +101,7 @@ const Header = () => {
                 <div className="px-1 py-1">
                   {links.map((link, key) => {
                     if (
-                      link.view === isUserLoggedIn ||
+                      link.view === isLoggedIn ||
                       link.view === LinkViews.BOTH
                     ) {
                       return (
@@ -99,10 +131,7 @@ const Header = () => {
         <div className="hidden w-full md:block md:w-auto">
           <ul className="flex flex-col font-medium text-gray-600 hover:text-purple-500 p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
             {links.map((link, key) => {
-              if (
-                link.view === isUserLoggedIn ||
-                link.view === LinkViews.BOTH
-              ) {
+              if (link.view === isLoggedIn || link.view === LinkViews.BOTH) {
                 return (
                   <li key={key}>
                     <Link

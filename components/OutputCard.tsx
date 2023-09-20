@@ -3,22 +3,20 @@ import clsx from "clsx";
 type OutputCardProps = {
   shortedUrl: string;
   handleSuccessToast: (message: string) => void;
+  isUserLoggedIn: boolean;
+  handleCopy: () => void;
 };
 
 const OutputCard: React.FC<OutputCardProps> = ({
   shortedUrl,
-  handleSuccessToast,
+  isUserLoggedIn,
+  handleCopy,
 }) => {
-  const handleCopy = () => {
-    navigator.clipboard.writeText(shortedUrl);
-    handleSuccessToast("Copied to clipboard");
-  };
-
   return (
     <>
       <div
         className={clsx("card mt-8 py-8 px-8", {
-          hidden: !shortedUrl,
+          hidden: !shortedUrl || isUserLoggedIn,
         })}
       >
         <p className="text-center font-bold text-gray-600">Shortened URL</p>
@@ -28,7 +26,7 @@ const OutputCard: React.FC<OutputCardProps> = ({
             type="text"
             className="border-2 border-gray-300 rounded-lg h-8 w-full py-7 pl-7 pr-11
               focus:border-black focus:outline-none"
-            value={shortedUrl}
+            value={`${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/${shortedUrl}`}
             readOnly={true}
           />
           <span className={"absolute inset-y-0 right-3 flex items-center pl-2"}>

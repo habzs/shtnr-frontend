@@ -1,8 +1,9 @@
 import Spinner from "@/components/Spinner";
-import { SignupResponse, shtnrApiService } from "@/services/api/shtnr";
+import { AuthResponse, shtnrApiService } from "@/services/api/shtnr";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 interface SignupProps {}
@@ -14,6 +15,7 @@ interface UserDetailsDTO {
 }
 
 const Signup = () => {
+  const router = useRouter();
   const [validForm, setValidForm] = useState({
     email: true,
     username: true,
@@ -60,11 +62,14 @@ const Signup = () => {
       );
       if (data) {
         toast.success("Successfully signed up! Redirecting...");
+        if (data.email) {
+          localStorage.setItem("user", JSON.stringify(data.email));
+        }
         setIsSignedUp(true);
       }
     } catch (err: any) {
       if (err.response) {
-        const res: SignupResponse = err.response.data;
+        const res: AuthResponse = err.response.data;
         if (res.errorsMsg) {
           Object.keys(res["errorsMsg"]).forEach((key: string) => {
             setValidForm((prev) => ({ ...prev, [key]: false }));
@@ -80,11 +85,11 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    // if (isSignedUp) {
-    //   setTimeout(() => {
-    //     window.location.href = "/";
-    //   }, 1000);
-    // }
+    if (isSignedUp) {
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
+    }
   }, [isSignedUp]);
 
   return (
@@ -198,15 +203,28 @@ const Signup = () => {
                     }}
                     // type="submit"
                   >
-                    {isSigningUp ? (
-                      <span className="flex justify-center">
+                    <div className="flex justify-center">
+                      {isSigningUp ? (
                         <Spinner />
-                      </span>
-                    ) : isSignedUp ? (
-                      <span>CHANGE THIS TO TICK</span>
-                    ) : (
-                      <span>Sign up</span>
-                    )}
+                      ) : isSignedUp ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-8 h-8"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      ) : (
+                        <span>Sign up</span>
+                      )}
+                    </div>
                   </button>
                 </div>
               </div>

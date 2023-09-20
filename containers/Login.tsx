@@ -1,9 +1,11 @@
 import Spinner from "@/components/Spinner";
-import { SignupResponse, shtnrApiService } from "@/services/api/shtnr";
+import { AuthResponse, shtnrApiService } from "@/services/api/shtnr";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
+import AuthContext from "@/components/AuthContext";
 
 interface SignupProps {}
 
@@ -13,6 +15,7 @@ interface UserDetailsDTO {
 }
 
 const Login = () => {
+  const router = useRouter();
   const [validForm, setValidForm] = useState({
     email: true,
     password: true,
@@ -23,12 +26,20 @@ const Login = () => {
   });
 
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const handleSetValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserDetails({ ...userDetails, [e.target.id]: e.target.value });
   };
+
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    router.push("/");
+    return null;
+  }
+
+  const { isUserLoggedIn, setIsUserLoggedIn } = authContext;
 
   const handleSubmit = async () => {
     let emptyFields = false;
@@ -57,11 +68,11 @@ const Login = () => {
       );
       if (data) {
         toast.success("Successfully signed up! Redirecting...");
-        setIsLoggedIn(true);
+        setIsUserLoggedIn(true);
       }
     } catch (err: any) {
       if (err.response) {
-        const res: SignupResponse = err.response.data;
+        const res: AuthResponse = err.response.data;
         setIsError(true);
         if (res.errorsMsg) {
           toast.error(res.errorsMsg as string);
@@ -72,12 +83,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    // if (isSignedUp) {
-    //   setTimeout(() => {
-    //     window.location.href = "/";
-    //   }, 1000);
-    // }
-  }, [isLoggedIn]);
+    if (isUserLoggedIn) {
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+      // router.push("/");
+    }
+  }, [isUserLoggedIn]);
 
   return (
     <>
@@ -163,20 +175,33 @@ const Login = () => {
                     className="relative w-full rounded-lg py-2 px-3 uppercase text-xs font-bold tracking-wider cursor-pointer h-full bg-black border-black border-2 text-white
         hover:bg-whitetransition ease-out duration-500 hover:scale-105 hover:animate-text hover:bg-gradient-to-r hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500"
                     onClick={() => {
-                      !false && handleSubmit();
-                      //   !isLoggedIn && handleSubmit();
+                      // !false && handleSubmit();
+                      !isUserLoggedIn && handleSubmit();
                     }}
-                    // type="submit"
+                    type="submit"
                   >
-                    {isLoggingIn ? (
-                      <span className="flex justify-center">
+                    <div className="flex justify-center">
+                      {isLoggingIn ? (
                         <Spinner />
-                      </span>
-                    ) : isLoggedIn ? (
-                      <span>CHANGE THIS TO TICK</span>
-                    ) : (
-                      <span>Log in</span>
-                    )}
+                      ) : isUserLoggedIn ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-8 h-8"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      ) : (
+                        <span>Log in</span>
+                      )}
+                    </div>
                   </button>
                 </div>
               </div>
