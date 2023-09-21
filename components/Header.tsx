@@ -50,7 +50,7 @@ const Header = () => {
 
   useEffect(() => {
     authContext.isLoggedIn();
-  }, [router.pathname]);
+  }, [router.pathname, authContext.isUserLoggedIn]);
 
   return (
     <nav className="sticky top-0 z-50 bg-white drop-shadow-sm">
