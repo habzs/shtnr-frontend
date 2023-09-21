@@ -21,6 +21,8 @@ export async function middleware(req: NextRequest) {
 
   if (req.nextUrl.pathname.startsWith("/dashboard")) {
     const userToken = req.cookies.get("auth")?.value;
+    console.log("userToken");
+    console.log(userToken);
     if (!userToken) {
       return NextResponse.redirect(new URL("/login", req.url));
     }

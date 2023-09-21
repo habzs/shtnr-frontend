@@ -22,7 +22,9 @@ const Logout = () => {
     if (shouldLog.current) {
       shouldLog.current = false;
       logoutAccount();
-      router.push("/");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     }
   }, []);
 
