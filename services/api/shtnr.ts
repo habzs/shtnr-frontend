@@ -6,7 +6,7 @@ import { axiosAuth } from "./axiosAuth";
 // -=-=-= URL Shortener Endpoint =-=-=-
 
 export const postShtnr = async (originalUrl: string, customUrl?: string) => {
-  const res = await axios.post<ShtnrResponse>(
+  const res = await axiosAuth.post<ShtnrResponse>(
     `/`,
     {
       url: originalUrl,
@@ -137,7 +137,7 @@ export const getCustomUrls = async () => {
 // -=-=-= User auth login endpoint =-=-=-
 export const removeUrl = async (shtnd_url: string) => {
   const res = await axiosAuth.post<ShtnrResponse[]>(
-    `/removeUrl`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/removeUrl`,
     { shtnd_url: shtnd_url },
     { withCredentials: true },
   );
