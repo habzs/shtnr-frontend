@@ -5,7 +5,7 @@ require("dotenv").config();
 
 export const postShtnr = async (originalUrl: string, customUrl?: string) => {
   const res = await axios.post<ShtnrResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}`,
     {
       url: originalUrl,
       customUrl: customUrl,
