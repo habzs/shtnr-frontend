@@ -89,7 +89,7 @@ const DashboardRow: React.FC<DashboardRowProps> = ({
           <div
             className="group flex h-8 w-8 items-center justify-center rounded-full border border-gray-500 transition-all hover:cursor-pointer hover:border-black"
             onClick={() => {
-              handleCopy(shtnd_url);
+              handleCopy(fullShortened);
             }}
           >
             <Clipboard

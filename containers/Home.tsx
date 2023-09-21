@@ -60,6 +60,7 @@ const Home = () => {
         setValidInput(true);
         setShortedUrl(data.shtnd_url);
         setValidCustom(true);
+        toast.success("Link shortened!");
         if (!customUrl || !data.shtnd_url) {
           setCustomUrl(data.shtnd_url);
         } else {
