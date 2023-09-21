@@ -57,7 +57,7 @@ export const postSignup = async (
   password: string,
 ) => {
   const res = await axios.post<AuthResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/signup`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}auth/signup`,
     {
       email: email,
       username: username,
@@ -86,7 +86,7 @@ export type AuthResponse = {
 
 export const postLogin = async (email: string, password: string) => {
   const res = await axios.post<AuthResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/login`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}auth/login`,
     { email: email, password: password },
     { withCredentials: true },
   );
@@ -96,7 +96,7 @@ export const postLogin = async (email: string, password: string) => {
 
 export const verifyToken = async () => {
   const res = await axios.post<VerifyTokenResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/verify-token`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}auth/verify-token`,
     {},
     { withCredentials: true },
   );
@@ -113,7 +113,7 @@ export type VerifyTokenResponse = {
 
 export const postLogout = async () => {
   const res = await axios.post<VerifyTokenResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/logout`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}auth/logout`,
     {},
     { withCredentials: true },
   );
@@ -124,7 +124,7 @@ export const postLogout = async () => {
 // -=-=-= User auth login endpoint =-=-=-
 export const getCustomUrls = async () => {
   const res = await axios.post<ShtnrResponse[]>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/getCustomUrls`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}getCustomUrls`,
     {},
     { withCredentials: true },
   );
@@ -135,7 +135,7 @@ export const getCustomUrls = async () => {
 // -=-=-= User auth login endpoint =-=-=-
 export const removeUrl = async (shtnd_url: string) => {
   const res = await axios.post<ShtnrResponse[]>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/removeUrl`,
+    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}removeUrl`,
     { shtnd_url: shtnd_url },
     { withCredentials: true },
   );
