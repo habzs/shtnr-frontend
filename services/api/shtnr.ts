@@ -1,5 +1,6 @@
 import { use } from "react";
 import axios from "axios";
+import { axiosAuth } from "./axiosAuth";
 // require("dotenv").config();
 
 // -=-=-= URL Shortener Endpoint =-=-=-
@@ -57,7 +58,7 @@ export const postSignup = async (
   username: string,
   password: string,
 ) => {
-  const res = await axios.post<AuthResponse>(
+  const res = await axiosAuth.post<AuthResponse>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/signup`,
     {
       email: email,
@@ -86,7 +87,7 @@ export type AuthResponse = {
 // -=-=-= User auth login endpoint =-=-=-
 
 export const postLogin = async (email: string, password: string) => {
-  const res = await axios.post<AuthResponse>(
+  const res = await axiosAuth.post<AuthResponse>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/login`,
     { email: email, password: password },
     { withCredentials: true },
@@ -96,7 +97,7 @@ export const postLogin = async (email: string, password: string) => {
 };
 
 export const verifyToken = async () => {
-  const res = await axios.post<VerifyTokenResponse>(
+  const res = await axiosAuth.post<VerifyTokenResponse>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/verify-token`,
     {},
     { withCredentials: true },
@@ -113,7 +114,7 @@ export type VerifyTokenResponse = {
 // -=-=-= User auth logout endpoint =-=-=-
 
 export const postLogout = async () => {
-  const res = await axios.post<VerifyTokenResponse>(
+  const res = await axiosAuth.post<VerifyTokenResponse>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/logout`,
     {},
     { withCredentials: true },
@@ -124,7 +125,7 @@ export const postLogout = async () => {
 
 // -=-=-= User auth login endpoint =-=-=-
 export const getCustomUrls = async () => {
-  const res = await axios.post<ShtnrResponse[]>(
+  const res = await axiosAuth.post<ShtnrResponse[]>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/getCustomUrls`,
     {},
     { withCredentials: true },
@@ -135,7 +136,7 @@ export const getCustomUrls = async () => {
 
 // -=-=-= User auth login endpoint =-=-=-
 export const removeUrl = async (shtnd_url: string) => {
-  const res = await axios.post<ShtnrResponse[]>(
+  const res = await axiosAuth.post<ShtnrResponse[]>(
     `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/removeUrl`,
     { shtnd_url: shtnd_url },
     { withCredentials: true },
