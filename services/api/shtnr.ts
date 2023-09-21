@@ -7,7 +7,7 @@ import { axiosAuth } from "./axiosAuth";
 
 export const postShtnr = async (originalUrl: string, customUrl?: string) => {
   const res = await axios.post<ShtnrResponse>(
-    process.env.NEXT_PUBLIC_SHTNR_BACKEND!,
+    `/`,
     {
       url: originalUrl,
       customUrl: customUrl,
@@ -59,7 +59,7 @@ export const postSignup = async (
   password: string,
 ) => {
   const res = await axiosAuth.post<AuthResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/signup`,
+    `/auth/signup`,
     {
       email: email,
       username: username,
@@ -88,7 +88,7 @@ export type AuthResponse = {
 
 export const postLogin = async (email: string, password: string) => {
   const res = await axiosAuth.post<AuthResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/login`,
+    `/auth/login`,
     { email: email, password: password },
     { withCredentials: true },
   );
@@ -98,7 +98,7 @@ export const postLogin = async (email: string, password: string) => {
 
 export const verifyToken = async () => {
   const res = await axiosAuth.post<VerifyTokenResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/verify-token`,
+    `/auth/verify-token`,
     {},
     { withCredentials: true },
   );
@@ -115,7 +115,7 @@ export type VerifyTokenResponse = {
 
 export const postLogout = async () => {
   const res = await axiosAuth.post<VerifyTokenResponse>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/auth/logout`,
+    `/auth/logout`,
     {},
     { withCredentials: true },
   );
@@ -126,7 +126,7 @@ export const postLogout = async () => {
 // -=-=-= User auth login endpoint =-=-=-
 export const getCustomUrls = async () => {
   const res = await axiosAuth.post<ShtnrResponse[]>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/getCustomUrls`,
+    `/getCustomUrls`,
     {},
     { withCredentials: true },
   );
@@ -137,7 +137,7 @@ export const getCustomUrls = async () => {
 // -=-=-= User auth login endpoint =-=-=-
 export const removeUrl = async (shtnd_url: string) => {
   const res = await axiosAuth.post<ShtnrResponse[]>(
-    `${process.env.NEXT_PUBLIC_SHTNR_BACKEND!}/removeUrl`,
+    `/removeUrl`,
     { shtnd_url: shtnd_url },
     { withCredentials: true },
   );
