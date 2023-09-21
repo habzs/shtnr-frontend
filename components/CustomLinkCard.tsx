@@ -19,16 +19,16 @@ const CustomLinkCard: React.FC<CustomLinkCardProps> = ({
   return (
     <>
       <div
-        className={clsx("card mt-8 py-8 px-8", {
+        className={clsx("card mt-8 px-8 py-8", {
           //   hidden: !shortedUrl,
         })}
       >
         <p className="text-center font-bold text-gray-600">Custom URL</p>
 
-        <div className="flex py-4 items-center justify-center space-x-3">
+        <div className="flex items-center justify-center space-x-3 py-4">
           <div className="basis-1/2">
             <input
-              className="border-2 border-gray-300 rounded-l-lg h-8 py-7 pl-7 pr-4  focus:outline-none w-full text-gray-400"
+              className="h-8 w-full rounded-l-lg border-2 border-gray-300 py-7 pl-7  pr-4 text-gray-400 focus:outline-none"
               value={`${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/`}
               readOnly={true}
             />
@@ -38,14 +38,14 @@ const CustomLinkCard: React.FC<CustomLinkCardProps> = ({
             <input
               type="text"
               className={clsx(
-                "relative border-2 border-gray-300 rounded-r-lg h-8 py-7 pl-7 focus:border-black focus:outline-none w-full",
+                "relative h-8 w-full rounded-r-lg border-2 border-gray-300 py-7 pl-7 focus:border-black focus:outline-none",
                 {
                   "border-lime-300":
                     shortedUrl && customUrl !== "" && validCustom,
                   "border-red-300": !validCustom,
-                }
+                },
               )}
-              maxLength={20}
+              maxLength={4}
               onChange={handleCustomLinkChange}
               value={customUrl}
             />
@@ -56,7 +56,7 @@ const CustomLinkCard: React.FC<CustomLinkCardProps> = ({
             >
               <button
                 type="submit"
-                className="p-1 focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline p-1 focus:outline-none"
                 onClick={handleCopy}
               >
                 <svg
@@ -64,7 +64,7 @@ const CustomLinkCard: React.FC<CustomLinkCardProps> = ({
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  className="w-6 h-6 hover:stroke-black transition ease-out duration-500 stroke-gray-400"
+                  className="h-6 w-6 stroke-gray-400 transition duration-500 ease-out hover:stroke-black"
                 >
                   <path
                     strokeLinecap="round"

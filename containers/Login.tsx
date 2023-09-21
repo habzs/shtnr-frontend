@@ -64,7 +64,7 @@ const Login = () => {
       setIsError(false);
       let data = await shtnrApiService.postLogin(
         userDetails.email,
-        userDetails.password
+        userDetails.password,
       );
       if (data) {
         toast.success("Successfully signed up! Redirecting...");
@@ -86,8 +86,7 @@ const Login = () => {
     if (isUserLoggedIn) {
       setTimeout(() => {
         router.push("/");
-      }, 3000);
-      // router.push("/");
+      }, 500);
     }
   }, [isUserLoggedIn]);
 
@@ -96,12 +95,12 @@ const Login = () => {
       <main>
         <div className="flex flex-col items-center">
           {/* Card Elements */}
-          <div className="mt-8 max-w-2xl min-w-fit w-6/12 mx-8">
-            <div className="mx-auto md:mx-0 mt-10 py-7 w-fit">
+          <div className="mx-8 mt-8 w-6/12 min-w-fit max-w-2xl">
+            <div className="mx-auto mt-10 w-fit py-7 md:mx-0">
               <Link href="/">
                 <div
                   className={
-                    "text-base font-bold tracking-tight xs:text-6xl text-gray-700 group"
+                    "group text-base font-bold tracking-tight text-gray-700 xs:text-6xl"
                   }
                 >
                   <span
@@ -111,7 +110,7 @@ const Login = () => {
                   >
                     shtnr
                   </span>
-                  <div className="inline-block group-hover:rotate-180 transition-all ease-in-out mx-2">
+                  <div className="mx-2 inline-block transition-all ease-in-out group-hover:rotate-180">
                     →
                   </div>
                   <span className="group-hover:opacity-30">log in</span>
@@ -119,7 +118,7 @@ const Login = () => {
               </Link>
             </div>
 
-            <div className="card py-8 px-8 max-w-xl">
+            <div className="card max-w-xl px-8 py-8">
               <div className="flex flex-col justify-center py-4">
                 <div className="space-y-3">
                   <div className="relative">
@@ -127,19 +126,19 @@ const Login = () => {
                       id="email"
                       type="email"
                       className={clsx(
-                        "peer border-2 border-gray-300 rounded-lg h-8 w-full py-7 pl-7 pr-11 focus:border-black focus:outline-none mt-2",
+                        "peer mt-2 h-8 w-full rounded-lg border-2 border-gray-300 py-7 pl-7 pr-11 focus:border-black focus:outline-none",
                         {
                           "border-red-300": isError,
-                        }
+                        },
                       )}
                       placeholder=" "
                       onChange={handleSetValue}
                     />
                     <label
                       htmlFor="email"
-                      className="absolute bg-white px-1 text-gray-400 scale-75 translate-y-0 -top-1 left-2 origin-[0]
-                                peer-placeholder-shown:left-7 peer-placeholder-shown:top-[55%] peer-placeholder-shown:-translate-y-1/2 transition-all peer-placeholder-shown:scale-100
-                                peer-focus:text-black peer-focus:scale-75 peer-focus:-translate-y-0 peer-focus:left-2 peer-focus:-top-1"
+                      className="absolute -top-1 left-2 origin-[0] translate-y-0 scale-75 bg-white px-1 text-gray-400
+                                transition-all peer-placeholder-shown:left-7 peer-placeholder-shown:top-[55%] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100
+                                peer-focus:-top-1 peer-focus:left-2 peer-focus:-translate-y-0 peer-focus:scale-75 peer-focus:text-black"
                     >
                       Email
                     </label>
@@ -150,32 +149,35 @@ const Login = () => {
                       id="password"
                       type="password"
                       className={clsx(
-                        "peer border-2 border-gray-300 rounded-lg h-8 w-full py-7 pl-7 pr-11 focus:border-black focus:outline-none mt-2",
+                        "peer mt-2 h-8 w-full rounded-lg border-2 border-gray-300 py-7 pl-7 pr-11 focus:border-black focus:outline-none",
                         {
                           "border-red-300": isError,
-                        }
+                        },
                       )}
                       placeholder=" "
                       onChange={handleSetValue}
                     />
                     <label
                       htmlFor="password"
-                      className="absolute bg-white px-1 text-gray-400 scale-75 translate-y-0 -top-1 left-2  origin-[0]
-                                peer-placeholder-shown:left-7 peer-placeholder-shown:top-[55%] peer-placeholder-shown:-translate-y-1/2 transition-all peer-placeholder-shown:scale-100
-                                peer-focus:text-black peer-focus:scale-75 peer-focus:-translate-y-0 peer-focus:left-2 peer-focus:-top-1"
+                      className="absolute -top-1 left-2 origin-[0] translate-y-0 scale-75 bg-white px-1  text-gray-400
+                                transition-all peer-placeholder-shown:left-7 peer-placeholder-shown:top-[55%] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100
+                                peer-focus:-top-1 peer-focus:left-2 peer-focus:-translate-y-0 peer-focus:scale-75 peer-focus:text-black"
                     >
                       Password
                     </label>
                   </div>
                 </div>
 
-                <div className="mt-5 h-16 relative group">
-                  <div className="absolute -inset-1 rounded-r-lg blur opacity-25 group-hover:opacity-100 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 group-hover:animate-text ease-out duration-500" />
+                <div className="group relative mt-5 h-16">
+                  <div className="absolute -inset-1 rounded-r-lg bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-25 blur duration-500 ease-out group-hover:animate-text group-hover:opacity-100" />
                   <button
-                    className="relative w-full rounded-lg py-2 px-3 uppercase text-xs font-bold tracking-wider cursor-pointer h-full bg-black border-black border-2 text-white
-        hover:bg-whitetransition ease-out duration-500 hover:scale-105 hover:animate-text hover:bg-gradient-to-r hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500"
+                    className={clsx(
+                      "hover:bg-whitetransition relative h-full w-full cursor-pointer rounded-lg border-2 border-black bg-black px-3 py-2 text-xs font-bold uppercase tracking-wider text-white duration-500 ease-out hover:scale-105 hover:animate-text hover:bg-gradient-to-r hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500",
+                      {
+                        "bg-green-500": isUserLoggedIn,
+                      },
+                    )}
                     onClick={() => {
-                      // !false && handleSubmit();
                       !isUserLoggedIn && handleSubmit();
                     }}
                     type="submit"
@@ -190,7 +192,7 @@ const Login = () => {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-8 h-8"
+                          className="h-8 w-8"
                         >
                           <path
                             strokeLinecap="round"

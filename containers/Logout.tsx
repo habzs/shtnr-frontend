@@ -1,6 +1,6 @@
 import AuthContext from "@/components/AuthContext";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 
 const Logout = () => {
@@ -16,9 +16,14 @@ const Logout = () => {
     toast.success("Logged out!");
   };
 
+  const shouldLog = useRef(true); // handler to make sure useEffect only run once on render
+
   useEffect(() => {
-    logoutAccount();
-    router.push("/");
+    if (shouldLog.current) {
+      shouldLog.current = false;
+      logoutAccount();
+      router.push("/");
+    }
   }, []);
 
   return null;

@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .card {
-  @apply bg-white rounded-xl border-gray-200 shadow-md overflow-hidden relative;
+  @apply relative rounded-xl border-gray-200 bg-white shadow-md;
 }
 
 .btn {
-  @apply xs:max-md:rounded-lg md:rounded-r-lg py-2 px-3 uppercase text-xs font-bold tracking-wider cursor-pointer;
+  @apply cursor-pointer px-3 py-2 text-xs font-bold uppercase tracking-wider xs:max-md:rounded-lg md:rounded-r-lg;
 }

@@ -13,6 +13,9 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      gridTemplateColumns: {
+        24: "repeat(24, minmax(0,1fr))",
+      },
       animation: {
         text: "text 3s ease-in-out infinite",
       },

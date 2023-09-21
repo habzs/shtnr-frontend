@@ -34,7 +34,7 @@ const Home = () => {
   };
 
   const handleCustomLinkChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     // setShortedUrl(event.target.value);
     setCustomUrl(event.target.value);
@@ -119,25 +119,25 @@ const Home = () => {
         <div className="flex flex-col items-center">
           <h1
             className={
-              "animate-text bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 bg-clip-text text-transparent py-7 text-6xl font-bold tracking-tight xs:text-6xl mt-10"
+              "mt-10 animate-text bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 bg-clip-text py-7 text-6xl font-bold tracking-tight text-transparent xs:text-6xl"
             }
           >
             shtnr
           </h1>
 
           {/* Card Elements */}
-          <div className="mt-8 max-w-2xl min-w-fit w-6/12 mx-8">
-            <div className="card py-8 px-8">
+          <div className="mx-8 mb-32 mt-8 w-6/12 min-w-fit max-w-2xl ">
+            <div className="card px-8 py-8">
               <p className="text-center font-bold text-gray-600">
                 Enter URL to be shortened
               </p>
 
-              <div className="flex flex-col md:flex-row justify-center py-4">
-                <div className="grow relative">
+              <div className="flex flex-col justify-center py-4 md:flex-row">
+                <div className="relative grow">
                   <input
                     ref={inputField}
                     type="text"
-                    className={`border-2 md:rounded-l-lg xs:max-md:rounded-lg h-8 w-full py-7 pl-7 pr-11 focus:border-black focus:outline-none ${
+                    className={`h-8 w-full border-2 py-7 pl-7 pr-11 focus:border-black focus:outline-none xs:max-md:rounded-lg md:rounded-l-lg ${
                       validInput ? "border-gray-300" : "border-red-300"
                     }`}
                     placeholder={`${validInput ? "" : placeholder}`}
@@ -148,10 +148,10 @@ const Home = () => {
                     <button
                       type="submit"
                       className={clsx(
-                        "p-1 focus:outline-none focus:shadow-outline",
+                        "focus:shadow-outline p-1 focus:outline-none",
                         {
                           hidden: !originalUrl,
-                        }
+                        },
                       )}
                       onClick={handleClearInput}
                     >
@@ -161,7 +161,7 @@ const Home = () => {
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="w-6 h-6 hover:stroke-black transition ease-out duration-500 stroke-gray-400"
+                        className="h-6 w-6 stroke-gray-400 transition duration-500 ease-out hover:stroke-black"
                       >
                         <path
                           strokeLinecap="round"
@@ -173,11 +173,11 @@ const Home = () => {
                   </span>
                 </div>
 
-                <div className="xs:max-md:mt-3 xs:max-md:h-16 relative group">
-                  <div className="absolute -inset-1 rounded-r-lg blur opacity-25 group-hover:opacity-100 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 group-hover:animate-text ease-out duration-500" />
+                <div className="group relative xs:max-md:mt-3 xs:max-md:h-16">
+                  <div className="absolute -inset-1 rounded-r-lg bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-25 blur duration-500 ease-out group-hover:animate-text group-hover:opacity-100" />
                   <button
-                    className="relative w-full xs:max-md:rounded-lg md:rounded-r-lg py-2 px-3 uppercase text-xs font-bold tracking-wider cursor-pointer h-full bg-black border-black border-2 text-white
-            hover:bg-whitetransition ease-out duration-500 hover:scale-105 hover:animate-text hover:bg-gradient-to-r hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500"
+                    className="hover:bg-whitetransition relative h-full w-full cursor-pointer border-2 border-black bg-black px-3 py-2 text-xs font-bold uppercase tracking-wider text-white duration-500
+            ease-out hover:scale-105 hover:animate-text hover:bg-gradient-to-r hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500 xs:max-md:rounded-lg md:rounded-r-lg"
                     onClick={() => {
                       handleShortenUrl();
                     }}
@@ -196,7 +196,7 @@ const Home = () => {
 
             {/* output card */}
             <div
-              className={`transistion ease-out duration-500 ${
+              className={`transistion duration-500 ease-out ${
                 shortedUrl && !isUserLoggedIn
                   ? validInput
                     ? "opacity-100"
@@ -214,7 +214,7 @@ const Home = () => {
 
             {/* custom links */}
             <div
-              className={`transistion ease-out duration-500 ${
+              className={`transistion duration-500 ease-out ${
                 isUserLoggedIn ? "opacity-100" : "opacity-0"
               }`}
             >

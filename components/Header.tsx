@@ -53,8 +53,8 @@ const Header = () => {
   }, [router.pathname]);
 
   return (
-    <nav className="bg-white drop-shadow-sm sticky top-0">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="sticky top-0 z-50 bg-white drop-shadow-sm">
+      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <a href="#" className="flex items-center">
           <Image
             src="/shtnr-logo.svg"
@@ -63,16 +63,16 @@ const Header = () => {
             height={32}
           />
 
-          <span className="ml-2 self-center text-2xl font-semibold whitespace-nowrap">
+          <span className="ml-2 self-center whitespace-nowrap text-2xl font-semibold">
             shtnr
           </span>
         </a>
-        <div className="md:hidden relative">
+        <div className="relative md:hidden">
           <Menu>
-            <Menu.Button className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+            <Menu.Button className="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden">
               <span className="sr-only">Open main menu</span>
               <svg
-                className="w-5 h-5"
+                className="h-5 w-5"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -97,7 +97,7 @@ const Header = () => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="right-0 z-10 absolute mt-2 w-56 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-0 z-10 mt-2 w-56 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1">
                   {links.map((link, key) => {
                     if (
@@ -129,7 +129,7 @@ const Header = () => {
         </div>
 
         <div className="hidden w-full md:block md:w-auto">
-          <ul className="flex flex-col font-medium text-gray-600 hover:text-purple-500 p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+          <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 p-4 font-medium text-gray-600 hover:text-purple-500 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0">
             {links.map((link, key) => {
               if (link.view === isLoggedIn || link.view === LinkViews.BOTH) {
                 return (
