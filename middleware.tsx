@@ -19,15 +19,15 @@ async function getFullLink(data = {}) {
 export async function middleware(req: NextRequest) {
   // get current path name
 
-  // if (req.nextUrl.pathname.startsWith("/dashboard")) {
-  //   const userToken = req.cookies.get("auth")?.value;
-  //   console.log("userToken");
-  //   console.log(userToken);
-  //   if (!userToken) {
-  //     return NextResponse.redirect(new URL("/login", req.url));
-  //   }
-  //   return;
-  // }
+  if (req.nextUrl.pathname.startsWith("/dashboard")) {
+    const userToken = req.cookies.get("auth");
+    console.log("userToken");
+    console.log(userToken);
+    if (!userToken) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+    return;
+  }
 
   if (req.nextUrl.pathname !== "/") {
     const pathName = req.nextUrl.pathname;

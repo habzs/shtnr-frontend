@@ -29,7 +29,7 @@ const CustomLinkCard: React.FC<CustomLinkCardProps> = ({
           <div className="basis-1/2">
             <input
               className="h-8 w-full rounded-l-lg border-2 border-gray-300 py-7 pl-7  pr-4 text-gray-400 focus:outline-none"
-              value={`${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/`}
+              value={`${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}`}
               readOnly={true}
             />
           </div>

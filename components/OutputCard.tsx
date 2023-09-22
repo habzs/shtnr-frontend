@@ -26,7 +26,7 @@ const OutputCard: React.FC<OutputCardProps> = ({
             type="text"
             className="border-2 border-gray-300 rounded-lg h-8 w-full py-7 pl-7 pr-11
               focus:border-black focus:outline-none"
-            value={`${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}/${shortedUrl}`}
+            value={`${process.env.NEXT_PUBLIC_SHTNR_FRONTEND}${shortedUrl}`}
             readOnly={true}
           />
           <span className={"absolute inset-y-0 right-3 flex items-center pl-2"}>
