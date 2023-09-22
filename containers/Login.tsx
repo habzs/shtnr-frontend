@@ -67,7 +67,7 @@ const Login = () => {
         userDetails.password,
       );
       if (data) {
-        toast.success("Successfully signed up! Redirecting...");
+        toast.success("Successfully logged in! Redirecting...");
         setIsUserLoggedIn(true);
       }
     } catch (err: any) {
