@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "./services/api/shtnr";
 
 async function getFullLink(data = {}) {
-  const url = `${process.env.NEXT_PUBLIC_SHTNR_BACKEND}/full`;
+  const url = `${process.env.NEXT_PUBLIC_SHTNR_BACKEND}full`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -19,15 +19,15 @@ async function getFullLink(data = {}) {
 export async function middleware(req: NextRequest) {
   // get current path name
 
-  if (req.nextUrl.pathname.startsWith("/dashboard")) {
-    const userToken = req.cookies.get("auth")?.value;
-    console.log("userToken");
-    console.log(userToken);
-    if (!userToken) {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
-    return;
-  }
+  // if (req.nextUrl.pathname.startsWith("/dashboard")) {
+  //   const userToken = req.cookies.get("auth")?.value;
+  //   console.log("userToken");
+  //   console.log(userToken);
+  //   if (!userToken) {
+  //     return NextResponse.redirect(new URL("/login", req.url));
+  //   }
+  //   return;
+  // }
 
   if (req.nextUrl.pathname !== "/") {
     const pathName = req.nextUrl.pathname;
