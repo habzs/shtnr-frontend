@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest) {
   // get current path name
 
   if (req.nextUrl.pathname.startsWith("/dashboard")) {
-    const userToken = req.cookies.get("auth");
+    const userToken = req.cookies.has("auth");
     console.log("userToken");
     console.log(userToken);
     if (!userToken) {
